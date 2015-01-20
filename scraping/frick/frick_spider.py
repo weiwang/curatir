@@ -1,78 +1,58 @@
 import scraperwiki
 import lxml.html
 import urlparse
+import json
 
-def scrape_page(root):
-    
+def scrape_page(root, material):    
     try:
-        for p in root.xpath("//div[@id='omniture_caption']/h3//text()"):
-            title = p
-
-        for p in root.xpath("//h4[text()='Works: ']/following-sibling::div/a[@href]//text()"):
-            artist = p
-
-        for p in root.xpath("//h4[text()='Classification: ']/following-sibling::div/a[@href]//text()"):
-            material = p
-
-        for p in root.xpath("//h4[text()='Permalink: ']/following-sibling::div/a[@href]/@href"):
-            id = p
-
-        for p in root.xpath("//p[@id='mainImage']//@src"):
-            image = p
-            
-            item = {
-            'id' : "http://www.moma.org/collection/"+id,
+        artist, title = root.xpath("//title/text()")[0].split(" : ")[0].split(" - ")
+        image = root.xpath("//img[contains(@src, '/internal/media')]/@src")[0]
+        ## material = [m.strip().split(" (")[0] for m in root.xpath("//div[text()='Object Type / Material']/following-sibling//text()").split(" (")]
+        id = root.xpath("//a[@class='permalink']/@href")[0]
+        onview = root.xpath("//div[@id='onview']/span//text()")[0]
+        item = {
+            'id' :  id,
             'title' : title,
             'artist' : artist,
             #'location' : displayLoc,
-            'image' : image,
+            'image' : base_url + image,
             'material' : material,
-            'venue' : "The Museum of Modern Art"
+            'venue' : "The Frick Collection",
+            'onview' : onview
             }
-
-        return item
-        ## scraperwiki.sqlite.save(unique_keys=["title"], data=data)
+        
+        if (onview == "Currently on View"):
+            print item
+            return item
+        return None
         
     except:
+        ## print 1
         pass
 
-def scrape_and_look_for_next_link(url):
-    html = scraperwiki.scrape(url)
-    ## print html
+def spider(starting_url, material):
+    i = 1;
+    html = scraperwiki.scrape(starting_url)
     root = lxml.html.fromstring(html)
-    scrape_page(root)
-        
-    next_link = root.cssselect("a.next")
+    dump = []
+    dump.append(scrape_page(root, material))
     
-    ## print next_link
-    if next_link:
-        next_url = urlparse.urljoin(base_url, next_link[0].attrib.get('href'))
-        ## print next_url
-        scrape_and_look_for_next_link(next_url)
+    next_link = root.xpath("//a[text()='Next']/@href")[0]
 
-def find_gallery_url(url):
-    html = scraperwiki.scrape(url)
-    print html
-    root = lxml.html.fromstring(html)
-    scrape_page(root)
+    while(next_link):
+        html = scraperwiki.scrape(base_url + next_link)
+        root = lxml.html.fromstring(html)
+        dump.append(scrape_page(root, material))
+        next_link = root.xpath("//a[text()='Next']/@href")[0]
+        i = i+1
+    json.dump(dump, open('frick_'+material+'_dump.json', "wb"))
 
-    gallery_url = root.cssselect("img.over")[0].attrib['src']
-
-    print gallery_url
     
-starting_url = 'http://collections.frick.org/view/objects/asitem/888/0/primaryMaker-asc/title-asc?t:state:flow=96ba9796-712c-4ccd-8ec5-325f0f9c654c'
+starting_url_painting = 'http://collections.frick.org/view/objects/asitem/152/0/primaryMaker-asc/title-asc?t:state:flow=3435e5e4-1bb6-4551-93a9-54bd5a7348ee'
+starting_url_sculpture = 'http://collections.frick.org/view/objects/asitem/126/0/primaryMaker-asc/title-asc?t:state:flow=b97f233f-91f7-4b80-9cf9-08cec00ec555'
+base_url = "http://collections.frick.org/"
 
-html = scraperwiki.scrape(starting_url)
-root = lxml.html.fromstring(html)
-dump = []
-dump.append(scrape_page(root))
-
-next_link = root.cssselect("a.next")
-
-while(next_link):
-    next_url = urlparse.urljoin(base_url, next_link[0].attrib.get('href'))
-    dump.append(scrape_page(next_url))
-    html = scraperwiki.scrape(next_url)
-    root = lxml.html.fromstring(html)
-    scrape_page(root)        
-    next_link = root.cssselect("a.next")
+if __name__ == "__main__":
+    spider(starting_url_painting, "painting")
+    spider(starting_url_sculpture, "sculpture")
+    

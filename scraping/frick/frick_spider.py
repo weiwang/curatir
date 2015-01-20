@@ -31,7 +31,6 @@ def scrape_page(root, material):
         pass
 
 def spider(starting_url, material):
-    i = 1;
     html = scraperwiki.scrape(starting_url)
     root = lxml.html.fromstring(html)
     dump = []
@@ -43,8 +42,10 @@ def spider(starting_url, material):
         html = scraperwiki.scrape(base_url + next_link)
         root = lxml.html.fromstring(html)
         dump.append(scrape_page(root, material))
-        next_link = root.xpath("//a[text()='Next']/@href")[0]
-        i = i+1
+        try:
+            next_link = root.xpath("//a[text()='Next']/@href")[0]
+        except:
+            next_link = None
     json.dump(dump, open('frick_'+material+'_dump.json', "wb"))
 
     

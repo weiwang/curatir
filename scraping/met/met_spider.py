@@ -33,28 +33,12 @@ def scrape_page(root, material):
             'material' : material,
             'venue' : "Metropolitan Museum of Arts"
             }
-        print item
+        ##        print item
         return item
         
     except:
         ## print 1
         pass
-
-# def scrape_and_look_for_next_link(url):
-#     html = scraperwiki.scrape(url)
-#     ## print html
-#     root = lxml.html.fromstring(html)
-#     material = url.split("_")[-1]
-#     scrape_page(root, material)
-
-#     ## next_link = root.cssselect("a.next")      
-
-#     next_link = root.xpath("//a[@class='next']/@href")[0]
-    
-#     ## print next_link
-#     if next_link:
-#         ## print next_url
-#         scrape_and_look_for_next_link(base_url+next_link)
 
 def spider(starting_url, material):
     i = 0;
@@ -69,8 +53,11 @@ def spider(starting_url, material):
         html = scraperwiki.scrape(base_url + next_link)
         root = lxml.html.fromstring(html)
         dump.append(scrape_page(root, material))
-        next_link = root.xpath("//a[@class='next']/@href")[0]
-        i = i+1
+        try:
+            next_link = root.xpath("//a[@class='next']/@href")[0]
+        except:
+            next_link = None
+
     json.dump(dump, open('met_'+material+'_dump.json', "wb"))
 
     

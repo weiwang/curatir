@@ -22,5 +22,14 @@ else: # TFIDF LDA
 lda.print_topics(lda.num_topics)
 
 # inspect topics distribution across documents
+topics_across_documents = []
 for doc in lda[corpus_tfidf]:
-    print doc
+    topic_dist = [0 for a in range(lda.num_topics)]
+    for d in doc:
+        topic_dist[d[0]] = d[1]
+    topics_across_documents.append(topic_dist)
+
+dist65=[]
+for i in range(0,101):
+    dist65.append([i,sum([a*b for a, b in zip(topics_across_documents[65], topics_across_documents[i])])])
+

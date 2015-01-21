@@ -1,0 +1,31 @@
+body {
+  padding-top: 50px;
+}
+div.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.frick  { background-color: #428bca; }
+.met { background-color: #5cb85c; } 
+.moma { background-color: #f0ad4e; } 
+.whitney { background-color: #d9534f; } 
+
+.twitter-typeahead .tt-dropdown-menu {
+    left: auto !important;
+    right: auto !important;
+    text-align: left;
+
+    width: 422px;
+    margin-top: 12px;
+    padding: 8px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.table {
+    color: #000;
+}

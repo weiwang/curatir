@@ -62,3 +62,14 @@ print article+" article"
 
 PaulCezanne = wikipedia.page("Paul Cezanne")
 PaulCezanne.content()
+
+
+import urllib
+
+
+artists = open()
+params = { "format":"xml", "action":"parse", "prop":"revisions", "rvprop":"timestamp|user|comment|content" }
+params["titles"] = "API|%s" % urllib.quote(title.encode("utf8"))
+qs = "&".join("%s=%s" % (k, v)  for k, v in params.items())
+url = "http://en.wikipedia.org/w/api.php?%s" % qs
+urllib.urlopen(url).read()

@@ -4,12 +4,17 @@ body {
 div.starter-template {
   padding: 40px 15px;
   text-align: center;
+  width: 100%;
+  font-size: 15px;
+}
+div.text-left {
+    text-align: left;
 }
 
-.frick  { background-color: #428bca; }
-.met { background-color: #5cb85c; } 
-.moma { background-color: #f0ad4e; } 
-.whitney { background-color: #d9534f; } 
+.frick  { background-color: #d9534f; }
+.met { background-color: #428bca; } 
+.moma { background-color:  #5cb85c; } 
+.whitney { background-color: #f0ad4e; } 
 
 .twitter-typeahead .tt-dropdown-menu {
     left: auto !important;
@@ -28,4 +33,16 @@ div.starter-template {
 
 .table {
     color: #000;
+}
+
+div.left{
+    float:left;
+}
+
+div.btn{
+    margin-bottom:2px;
+}
+
+.custom{
+    width: 400px !important;
 }

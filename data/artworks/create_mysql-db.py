@@ -9,7 +9,7 @@ con = mdb.connect(host='localhost', user='root', passwd='', db='nyarts', use_uni
 with con:
     cur = con.cursor()
     cur.execute("DROP TABLE IF EXISTS artworks")
-    cur.execute("CREATE TABLE artworks (Id INT PRIMARY KEY AUTO_INCREMENT,TITLE VARCHAR(50),ARTIST VARCHAR(50), MATERIAL VARCHAR(50), VENUE VARCHAR(50), URL VARCHAR(50), IMAGE_URL VARCHAR(50))")
+    cur.execute("CREATE TABLE artworks (Id INT PRIMARY KEY AUTO_INCREMENT,TITLE VARCHAR(50),ARTIST VARCHAR(50), MATERIAL VARCHAR(50), VENUE VARCHAR(50), URL VARCHAR(100), IMAGE_URL VARCHAR(100))")
 
     ## add_artwork = ("INSERT INTO artworks (TITLE, ARTIST, MATERIAL, VENUE, URL, IMAGE_URL) VALUES (%s, %s, %s, %s, %s, %s)")        
     
@@ -33,13 +33,12 @@ with con:
                 cur.execute(query)
                 #cur.execute(add_artwork, artwork)
 
-
-with con: 
-    cur = con.cursor()
-    cur.execute("SELECT * FROM artworks")
-    rows = cur.fetchall()
-    for row in rows:
-        print row
+# with con: 
+#     cur = con.cursor()
+#     cur.execute("SELECT * FROM artworks")
+#     rows = cur.fetchall()
+#     for row in rows:
+#         print row
                 
 # cur.close()
 # con.close()

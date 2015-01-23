@@ -53,7 +53,6 @@
 
 <br><br>
 
-<div class="container">
 
     <div class = "container">
         <form  action="/output" method="GET">
@@ -67,53 +66,43 @@
             <button type="submit" class="btn btn-default btn-lg">Find artworks!</button>
           </div>
         </form>
-      </div>
+    </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
 
   </div> <!-- /.container-->
-
-    <div class="container">
+  <div class="container">
+  <div class="row"> 
+    <div class="col-xs-8">
       <div class="starter-template">
-        <h3>{{ number }} Artwork(s) by {{ artist }} found in NYC:</h3>
+        <h3>{{ number }} found in NYC for {{ artist }}:</h3>
         <p class="lead"> </p>
       </div>
 
-      <table class="table table-hover">
-      <tr><th>Title</th><th>Image</th><th>Venue</th></tr>
+       <table class="table table-hover">
+      <tr><th>Title & Venue</th><th>Preview</th><th></th></tr>
       {% for artwork in artworks %}
-      <tr class= {{ artwork['venue_code'] }} ><td>{{ artwork['title'] }}</td><td>{{ artwork['image']}}</td><td> {{ artwork['venue'] }}</td></tr>
+      <tr class= {{ artwork['venue_code'] }} ><td>{{ artwork['title'] }} <br></br> <b>{{ artwork['venue'] }}</b></td><td><img style="width:80px;height:80px" src="{{ artwork['image']}}"></td><td></td></tr>
       {% endfor %}
       </table>
+    </div> <!-- containter left -->
 
 
-     </div><!-- /.container -->
-
-     <div class="container"> 
+     <div class="col-xs-4"> 
        <div class="starter-template"> 
-         <h3>Artists similar to {{ artist }}:</h3>
+         <h3>5 artists similar to {{ artist }}:</h3>
          <p class="lead"></p>
      </div> 
-     <div class="container">
-       <div class="starter-template">
-         <button type="button" class="btn btn-danger btn-lg">{{ s_artist[0] }} </button>
-         <button type="button" class="btn btn-primary btn-lg">{{ s_artist[1] }}</button>
-         <button type="button" class="btn btn-info btn-lg">{{ s_artist[2] }}</button>
-         <button type="button" class="btn btn-success btn-lg">{{ s_artist[3] }}</button>
-         <button type="button" class="btn btn-warning btn-lg">{{ s_artist[4] }}</button>
-       </div>
+         <form action="/output" method="GET">
+           <div class="btn"><button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-primary btn-lg btn-block custom">{{ rec_artists[0][0] }} </button></div>
+           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="btn btn-info btn-lg btn-block custom">{{ rec_artists[1][0] }}</button></div>
+           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="btn btn-success btn-lg btn-block custom">{{ rec_artists[2][0] }}</button></div>
+           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="btn btn-warning btn-lg btn-block custom">{{ rec_artists[3][0] }}</button></div>
+           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="btn btn-danger btn-lg btn-block custom">{{ rec_artists[4][0] }}</button> </div>
+         </form>
      </div>
-
-     <div class="container"> 
-       <div class="starter-template"> 
-         <h1></h1>
-         <p class="lead"></p>
-     </div> 
-      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-      <script src="static/js/bootstrap.min.js"></script>
-
-
-     </div><!-- /.container -->
+  </div>
+  </div>
 
 
     <!-- Bootstrap core JavaScript

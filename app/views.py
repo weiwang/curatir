@@ -2,6 +2,7 @@ from flask import render_template, request
 from app import app
 import pymysql as mdb
 import json
+import cPickle as pickle
 import os
 
 db = mdb.connect(user="root", host="localhost", db="nyarts", charset='utf8')
@@ -43,9 +44,12 @@ def output():
     
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
     json_url = os.path.join(SITE_ROOT, "static", "artist_101_names.json")
-    s_artist = json.load(open(json_url))
-    s_artist = [v for v in s_artist.values()][:5]
-    #    s_artist = json.load(open("./static/artist_101_names.json"))[:5]
+    pickle_url = os.path.join(SITE_ROOT, "static", "dist_mat")
+    dist_mat = pickle.load(open(pickle_url))
+    artist_names = json.load(open(json_url))
+    artist_names = [x for (y,x)  in sorted(zip([int(k) for k in artist_names.keys()], artist_names.values()))]
+    rec_artists = [a for a in dist_mat[artist]][:5]
+    #    rec_path = ["/output?ID=" + a.replace(" ", "+") for a in rec_artists]
 
-    return render_template("output.html", artworks = artworks, artist=artist, number=len(query_results_full), s_artist=s_artist)
+    return render_template("output.html", artworks = artworks, artist=artist, number=len(query_results_full), rec_artists=rec_artists)
 

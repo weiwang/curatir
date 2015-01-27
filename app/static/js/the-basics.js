@@ -24,7 +24,8 @@ cb(matches);
  
  
 items = [];
-$.getJSON( "static/artist_101_names.json", function( data ) {
+// $.getJSON( "static/artist_101_names.json", function( data ) {
+$.getJSON( "static/artist_101_names_display.json", function( data ) {
 $.each( data, function( key, val ) {
     items.push(  val  );
 });

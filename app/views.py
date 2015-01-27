@@ -45,11 +45,17 @@ def output():
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
     json_url = os.path.join(SITE_ROOT, "static", "artist_101_names.json")
     pickle_url = os.path.join(SITE_ROOT, "static", "dist_mat")
+    info_url = os.path.join(SITE_ROOT, "static", "artist_101_info.json")
     dist_mat = pickle.load(open(pickle_url))
     artist_names = json.load(open(json_url))
     artist_names = [x for (y,x)  in sorted(zip([int(k) for k in artist_names.keys()], artist_names.values()))]
     rec_artists = [a for a in dist_mat[artist]][:5]
     #    rec_path = ["/output?ID=" + a.replace(" ", "+") for a in rec_artists]
 
-    return render_template("output.html", artworks = artworks, artist=artist, number=len(query_results_full), rec_artists=rec_artists)
+    ## geo
+    info = json.load(open(info_url))
+    artist_info = info[artist]
+    rec_artists_info = [info[rec] for rec in [a[0] for a in rec_artists]]
+
+    return render_template("output.html", artworks = artworks, artist=artist, number=len(query_results_full), rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info)
 

@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Output with Map</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -21,10 +21,16 @@
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
+    <!-- leaflet and D3 -->
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.1/leaflet.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <style>
+     @import url(http://cdn.leafletjs.com/leaflet-0.6.1/leaflet.css);
+    </style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
 
@@ -51,69 +57,115 @@
       </div>
     </nav>
 
-<br><br>
+    <br><br>
 
 
     <div class = "container">
-        <form  action="/output" method="GET">
-          <div class="form-group">
-            <label for="ID">Search another Artist:</label>
-            <div id="the-basics" style="color=rgb(255,255,255,1)">
-              <input class="form-control typeahead tt" type="text" id="ID" name='ID' placeholder="Name of an Artist">
-            </div>
+      <form  action="/output" method="GET">
+        <div class="form-group">
+          <label for="ID">Search another Artist:</label>
+          <div id="the-basics" style="color=rgb(255,255,255,1)">
+            <input class="form-control typeahead tt" type="text" id="ID" name='ID' placeholder="Name of an Artist">
           </div>
-          <div>
-            <button type="submit" class="btn btn-default btn-lg">Find artworks!</button>
-          </div>
-        </form>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-default btn-lg">Find artworks!</button>
+        </div>
+      </form>
     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
 
-  </div> <!-- /.container-->
-  <div class="container">
-  <div class="row"> 
-    <div class="col-xs-8">
+    <div class="container"> 
       <div class="starter-template">
         <h3>{{ number }} found in NYC for {{ artist }}:</h3>
         <p class="lead"> </p>
       </div>
 
-       <table class="table table-hover">
-      <tr><th>Title & Venue</th><th>Preview</th><th></th></tr>
-      {% for artwork in artworks %}
-      <tr class= {{ artwork['venue_code'] }} ><td>{{ artwork['title'] }} <br></br> <b>{{ artwork['venue'] }}</b></td><td><img style="width:80px;height:80px" src="{{ artwork['image']}}"></td><td></td></tr>
-      {% endfor %}
+      <table class="table table-hover">
+        <tr><th>Title & Venue</th><th>Preview</th><th></th></tr>
+        {% for artwork in artworks %}
+        <tr class= {{ artwork['venue_code'] }} ><td>{{ artwork['title'] }} <br></br> <b>{{ artwork['venue'] }}</b></td><td><img style="width:80px;height:80px" src="{{ artwork['image']}}"></td><td></td></tr>
+        {% endfor %}
       </table>
     </div> <!-- containter left -->
+      </div>
+
+      </div> <!-- /.container-->
 
 
-     <div class="col-xs-4"> 
-       <div class="starter-template"> 
-         <h3>5 artists similar to {{ artist }}:</h3>
-         <p class="lead"></p>
-     </div> 
-         <form action="/output" method="GET">
-           <div class="btn"><button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-primary btn-lg btn-block custom">{{ rec_artists[0][0] }} </button></div>
-           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="btn btn-info btn-lg btn-block custom">{{ rec_artists[1][0] }}</button></div>
-           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="btn btn-success btn-lg btn-block custom">{{ rec_artists[2][0] }}</button></div>
-           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="btn btn-warning btn-lg btn-block custom">{{ rec_artists[3][0] }}</button></div>
-           <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="btn btn-danger btn-lg btn-block custom">{{ rec_artists[4][0] }}</button> </div>
-         </form>
-     </div>
-  </div>
-  </div>
+      <div class="container">
+        <div class="row"> 
+          <div class="col-xs-6"> 
+            <div class="starter-template"> 
+              <h3>5 artists similar to {{ artist }}:</h3>
+              <p class="lead"></p>
+            </div> 
+            <form action="/output" method="GET">
+              <div class="btn"><button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-primary btn-lg btn-block custom">{{ rec_artists[0][0] }} </button></div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="btn btn-info btn-lg btn-block custom">{{ rec_artists[1][0] }}</button></div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="btn btn-success btn-lg btn-block custom">{{ rec_artists[2][0] }}</button></div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="btn btn-warning btn-lg btn-block custom">{{ rec_artists[3][0] }}</button></div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="btn btn-danger btn-lg btn-block custom">{{ rec_artists[4][0] }}</button> </div>
+            </form>
+          </div> <!-- left column -->
+
+          <div class="col-xs-6">
+            <div class="starter-template"> 
+              <!-- <h3>Why they are similar: </h3> <br> -->
+              <p class="lead">Place of Birth</p>
+            </div> 
+            <div id="map" style="width: 500px; height: 200px" class="right"></div>
+              <script>
+               var map = L.map('map').setView([51.505, -40], 2);
+               L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			           maxZoom: 18,
+			           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				                   '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				                   'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			           id: 'examples.map-i875mjb7'
+		           }).addTo(map);
+
+		           L.circleMarker([{{ artist_info['lat'] }}, {{ artist_info['lon'] }}], {color:"red"}).addTo(map)
+		            .bindPopup("{{ artist }}").openPopup();                  
+
+		           L.marker([{{ rec_artists_info[0]['lat'] }}, {{ rec_artists_info[0]['lon'] }}]).addTo(map)
+		            .bindPopup("{{ rec_artists[0][0] }}").openPopup();                  
+              </script>
+
+            <div class="starter-template"> 
+              <h3></h3> 
+              <p class="lead"></p>
+            </div>
+
+            <div class="starter-template"> 
+              <h3></h3> 
+              <p class="lead"></p>
+            </div>
+            <div class="starter-template"> 
+              <h3></h3> 
+              <p class="lead">Era: </p>
+            </div>
+
+            <div class="starter-template"> 
+              <h3></h3> 
+              <p class="lead">Key Words: </p>
+            </div>
+
+          </div>  <!-- right column -->
+      </div>
+      
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/typeahead.bundle.js"></script>
-    <script src="../static/js/the-basics.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+      <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script src="../static/js/bootstrap.min.js"></script>
+      <script src="../static/js/typeahead.bundle.js"></script>
+      <script src="../static/js/the-basics.js"></script>
+      <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+      <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>

@@ -15,7 +15,7 @@
     <link href="../static/css/typeaheadjs.css" rel = "stylesheet">
 
     <!-- Bootstrap image -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
     <link rel="stylesheet" href="../static/css/bootstrap-image-gallery.min.css">
 
@@ -167,8 +167,8 @@
       <div class="container">
         <div class="row"> 
           <div class="col-xs-6"> 
-            <div class="starter-template"> 
-              <h3>5 artists similar to {{ artist }}:</h3>
+            <div class="starter-template left"> 
+              <h3>5 artists you might also want to see:</h3>
               <p class="lead"></p>
             </div> 
             <form action="/output" method="GET">
@@ -182,7 +182,7 @@
 
           <div class="col-xs-6">
             <div class="starter-template"> 
-              <h3>Place of Birth:</h3>
+              <h4>Place of Birth:</h4>
               <div id="map" style="width: 500px; height: 200px" class="right">
               <script>
                var map = L.map('map').setView([51.505, -40], 2);
@@ -204,8 +204,10 @@
             </div>
 
             <div class="starter-template">
-              <h3>Era:</h3>
+              <h4>Era:</h4>
               <div id="timeline" style="width: 500px; height: 200px" class="right"></div>
+
+              <!-- render era -->
 		          <script type="text/javascript">
 		           //data
 		           var lanes = ["{{ artist }}","{{ rec_artists[0][0] }}"],
@@ -214,8 +216,6 @@
 					              {"lane": 1,  "start":{{ rec_artists_info[0]['birthYear'] }} , "end":{{ rec_artists_info[0]['deathYear'] }} } ]
 			         timeBegin = 1400,
 			         timeEnd = 2000;
-		          </script>
-		          <script type="text/javascript">
 		           var m = [20, 15, 15, 120], //top right bottom left
 			         w = 600 - m[1] - m[3],
 			         h = 200 - m[0] - m[2],
@@ -360,7 +360,7 @@
             </div>
 
             <div class="starter-template"> 
-              <h3>Key Words:</h3> 
+              <h4>Key Words:</h4> 
               <p class="lead"> </p>
             </div>
 

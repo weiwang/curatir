@@ -139,12 +139,12 @@
 
     <div class="container"> 
       <div class="starter-template">
-        <h3>{{ artist }}:</h3>
+        <h3>{{ artist }} : {{ artworks|length }} total</h3>
       </div>
       
       {% for artwork_one_venue in artworks_by_venue %}
       <div id="links">
-        <p class="lead">{{ artwork_one_venue[0]['venue'] }}</p>
+        <p class="lead">{{ artwork_one_venue[0]['venue'] }} : {{  artwork_one_venue|length }}</p>
         {%  for artwork in artwork_one_venue %}
         <a href="#" title="{{ artwork['title'] }}" data-gallery>
           <img style="width:160px;height:160px" src="{{ artwork['image']}}" alt="">
@@ -166,235 +166,51 @@
 
       <div class="container">
         <div class="row"> 
-          <div class="col-xs-6"> 
+          <div class="col-xs-4"> 
             <div class="starter-template left"> 
               <h3>5 artists you might also want to see:</h3>
               <p class="lead"></p>
             </div> 
             <form action="/output" method="GET">
               <div class="btn"><button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }} </button>
-                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
-</div>
+                <button type="button" onclick="renderAll(0)" class="btn btn-default btn-lg  custom_short">Why? </button>
+              </div>
               <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="btn btn-info btn-lg  custom_long">{{ rec_artists[1][0] }}</button>
-                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
-</div>
+                <button type="button"  onclick="renderAll(1)"  class="btn btn-default btn-lg  custom_short">Why? </button>
+              </div>
               <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="btn btn-success btn-lg  custom_long">{{ rec_artists[2][0] }}</button>
-                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
-</div>
+                <button  type="button"  onclick="renderAll(2)"   class="btn btn-default btn-lg  custom_short">Why? </button>
+              </div>
               <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="btn btn-warning btn-lg  custom_long">{{ rec_artists[3][0] }}</button>
-                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
-</div>
+                <button  type="button" onclick="renderAll(3)"  class="btn btn-default btn-lg  custom_short">Why? </button>
+              </div>
               <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="btn btn-danger btn-lg  custom_long">{{ rec_artists[4][0] }}</button> 
-                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
-</div>
+                <button  type="button" onclick="renderAll(4)"  class="btn btn-default btn-lg  custom_short">Why? </button>
+              </div>
             </form>
           </div> <!-- left column -->
 
-          <div class="col-xs-6">
-            <div class="starter-template"> 
-              <h4>Place of Birth:</h4>
-              <div id="map" style="width: 400px; height: 400px" class="right">
-              <script>
-               var markers = [[{{ artist_info['lat'] }}, {{ artist_info['lon'] }}], [{{ rec_artists_info[0]['lat'] }}, {{ rec_artists_info[0]['lon'] }}]];
-               //var zoom = Math.min(10, Math.floor(360/(Math.abs({{ artist_info['lat'] }} - {{ rec_artists_info[0]['lat'] }})))-2); 
-               //var map = L.map('map').setView([({{ artist_info['lat'] }}+{{ rec_artists_info[0]['lat'] }})/2, ({{ artist_info['lon'] }} + {{ rec_artists_info[0]['lon'] }})/2], 5);
-               var map = L.map('map').fitBounds(markers);
-               L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			           maxZoom: 18,
-			           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				                   '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				                   'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			           id: 'examples.map-i875mjb7'
-		           }).addTo(map);
-
-		           /* L.marker(markers[0]).addTo(map)
-		              .bindPopup("{{ artist }}").openPopup();                  
-
-		              L.marker(markers[1]).addTo(map)
-		              .bindPopup("{{ rec_artists[0][0] }}").openPopup(); */
-             
-              popup0 = new L.Popup();
-
-              popup0.setLatLng(markers[0]);
-              popup0.setContent('{{ artist }}');
-              
-              
-              popup1 = new L.Popup();
-              
-              
-              popup1.setLatLng(markers[1]);
-              popup1.setContent('{{ rec_artists[0][0] }}');
-              
-              map.addLayer(popup0).addLayer(popup1);
-              </script>
- 
-              </div>
-            </div>
-
-            <div class="starter-template">
-              <h4>Era:</h4>
+          <div class="col-xs-8">
+            <div class="starter-template left"> 
+              <h3>Comparisons:</h3>
+              <div id="map" style="width: 450px; height: 300px" class="right"></div>
               <div id="timeline" style="width: 500px; height: 200px" class="right"></div>
-
-              <!-- render era -->
-		          <script type="text/javascript">
-		           //data
-		           var lanes = ["{{ artist }}","{{ rec_artists[0][0] }}"],
-			         laneLength = lanes.length,
-			         items = [{"lane": 0,  "start":{{ artist_info["birthYear"]}}, "end":{{ artist_info["deathYear"] }}},
-					              {"lane": 1,  "start":{{ rec_artists_info[0]['birthYear'] }} , "end":{{ rec_artists_info[0]['deathYear'] }} } ]
-			         timeBegin = 1400,
-			         timeEnd = 2000;
-		           var m = [20, 15, 15, 120], //top right bottom left
-			         w = 600 - m[1] - m[3],
-			         h = 200 - m[0] - m[2],
-			         mainHeight = h - 50;
-
-		           //scales
-		           var x = d3.scale.linear()
-				                       .domain([timeBegin, timeEnd])
-				                       .range([0, w]);
-		           var x1 = d3.scale.linear()
-				                        .range([0, w]);
-               var y1 = d3.scale.linear()
-				                        .domain([0, laneLength])
-				                        .range([0, mainHeight]); 
-               /* var y2 = d3.scale.linear()
-				          .domain([0, laneLength])
-				          .range([0, miniHeight]); */
-
-		           var chart = d3.select("#timeline")
-					                   .append("svg")
-					                   .attr("width", w + m[1] + m[3])
-					                   .attr("height", h + m[0] + m[2])
-					                   .attr("class", "chart");
-		           
-               chart.append("defs").append("clipPath")
-			            .attr("id", "clip")
-			            .append("rect")
-			            .attr("width", w)
-			            .attr("height", mainHeight); 
-
-               var main = chart.append("g")
-					        .attr("transform", "translate(" + m[3] + "," + m[0] + ")")
-					        .attr("width", w)
-					        .attr("height", mainHeight)
-					        .attr("class", "main"); 
-               /* var mini = chart.append("g")
-					        .attr("transform", "translate(" + m[3] + "," + (mainHeight + m[0]) + ")")
-					        .attr("width", w)
-					        .attr("height", miniHeight)
-					        .attr("class", "mini"); */
-		           //main lanes and texts
-               main.append("g").selectAll(".laneLines")
-			            .data(items)
-			            .enter().append("line")
-			            .attr("x1", m[1])
-			            .attr("y1", function(d) {return y1(d.lane);})
-			            .attr("x2", w)
-			            .attr("y2", function(d) {return y1(d.lane);})
-			            .attr("stroke", "lightgray") 
-
-		              main.append("g").selectAll(".laneText")
-			            .data(lanes)
-			            .enter().append("text")
-			            .text(function(d) {return d;})
-			            .attr("x", -m[1])
-			            .attr("y", function(d, i) {return y1(i + .5);})
-			            .attr("dy", ".5ex")
-			            .attr("text-anchor", "end")
-			            .attr("class", "laneText"); 
-
-               main.append("g").selectAll("miniItems")
-			             .data(items)
-			             .enter().append("rect")
-			             .attr("class", function(d) {return "miniItem" + d.lane;})
-			             .attr("x", function(d) {return x(d.start);})
-			             .attr("y", function(d) {return y1(d.lane + .5) - 5;})
-			             .attr("width", function(d) {return x(d.end) - x(d.start);})
-			             .attr("height", 15); 
-
-
-               main.append("g")
-                   .attr("class", "axis")
-               /* .attr("transform", function(){
-                  return "translate(" + m[0]
-                  + "," + h + ")";
-                  }) */
-                   .call(axis);
-               
-               var axis = d3.svg.axis() // <-D
-                                .scale(d3.time.scale()
-                                 .domain([new Date(1400, 0, 1), new Date(2000, 0, 1)])
-                                 .range([0, w]))
-                                .orient("bottom") // <-F
-                                .ticks(5); // <-G
-                                
-               /* var itemRects = main.append("g")
-							    .attr("clip-path", "url(#clip)"); */
-		           
-		           //mini lanes and texts
-               /* mini.append("g").selectAll(".laneLines")
-			            .data(items)
-			            .enter().append("line")
-			            .attr("x1", m[1])
-			            .attr("y1", function(d) {return y2(d.lane);})
-			            .attr("x2", w)
-			            .attr("y2", function(d) {return y2(d.lane);})
-			            .attr("stroke", "lightgray");
-
-		              mini.append("g").selectAll(".laneText")
-			            .data(lanes)
-			            .enter().append("text")
-			            .text(function(d) {return d;})
-			            .attr("x", -m[1])
-			            .attr("y", function(d, i) {return y2(i + .5);})
-			            .attr("dy", ".5ex")
-			            .attr("text-anchor", "end")
-			            .attr("class", "laneText"); */
-
-		           
-               /* //mini item rects
-		              mini.append("g").selectAll("miniItems")
-			            .data(items)
-			            .enter().append("rect")
-			            .attr("class", function(d) {return "miniItem" + d.lane;})
-			            .attr("x", function(d) {return x(d.start);})
-			            .attr("y", function(d) {return y2(d.lane + .5) - 5;})
-			            .attr("width", function(d) {return x(d.end - d.start);})
-			            .attr("height", 10); */
-               /* //mini labels
-		              mini.append("g").selectAll(".miniLabels")
-			            .data(items)
-			            .enter().append("text")
-			            .text(function(d) {return d.id;})
-			            .attr("x", function(d) {return x(d.start);})
-			            .attr("y", function(d) {return y2(d.lane + .5);})
-			            .attr("dy", ".5ex"); */
-		           //brush
-               /* var brush = d3.svg.brush()
-							    .x(x)
-							    .on("brush", display); */
-
-               /* mini.append("g")
-			            .attr("class", "x brush")
-			            .call(brush)
-			            .selectAll("rect")
-			            .attr("y", 1)
-			            .attr("height", miniHeight - 1); */
-
-		           
-		          </script>
-              </div>
             </div>
-
-            <div class="starter-template"> 
-              <h4>Key Words:</h4> 
-              <p class="lead"> </p>
-            </div>
+            
+          </div>
+            <script type="text/javascript">
+ 
+ 
+		         function renderAll(i) {
+               document.getElementById("map").innerHTML = "Sorry, no map for you =P";
+               document.getElementById("timeline").innerHTML = "Sorry, no timeline for you =P";
+             }
+		        </script>
 
           </div>  <!-- right column -->
+        </div>
       </div>
-      
+        
 
     <div class = "container">
       <div class="starter-template">

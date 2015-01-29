@@ -62,5 +62,5 @@ def output():
     for venue in set([artwork['venue'] for artwork in artworks]):
         artworks_by_venue.append([artwork for artwork in artworks if artwork['venue']==venue])
 
-    return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, number=len(query_results_full), rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info)
+    return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info)
 

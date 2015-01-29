@@ -57,5 +57,10 @@ def output():
     artist_info = info[artist]
     rec_artists_info = [info[rec] for rec in [a[0] for a in rec_artists]]
 
-    return render_template("output.html", artworks = artworks, artist=artist, number=len(query_results_full), rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info)
+    ## list of artworks by venue
+    artworks_by_venue = []
+    for venue in set([artwork['venue'] for artwork in artworks]):
+        artworks_by_venue.append([artwork for artwork in artworks if artwork['venue']==venue])
+
+    return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, number=len(query_results_full), rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info)
 

@@ -172,20 +172,33 @@
               <p class="lead"></p>
             </div> 
             <form action="/output" method="GET">
-              <div class="btn"><button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-primary btn-lg btn-block custom">{{ rec_artists[0][0] }} </button></div>
-              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="btn btn-info btn-lg btn-block custom">{{ rec_artists[1][0] }}</button></div>
-              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="btn btn-success btn-lg btn-block custom">{{ rec_artists[2][0] }}</button></div>
-              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="btn btn-warning btn-lg btn-block custom">{{ rec_artists[3][0] }}</button></div>
-              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="btn btn-danger btn-lg btn-block custom">{{ rec_artists[4][0] }}</button> </div>
+              <div class="btn"><button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }} </button>
+                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
+</div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="btn btn-info btn-lg  custom_long">{{ rec_artists[1][0] }}</button>
+                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
+</div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="btn btn-success btn-lg  custom_long">{{ rec_artists[2][0] }}</button>
+                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
+</div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="btn btn-warning btn-lg  custom_long">{{ rec_artists[3][0] }}</button>
+                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
+</div>
+              <div class="btn"><button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="btn btn-danger btn-lg  custom_long">{{ rec_artists[4][0] }}</button> 
+                <button  type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="btn btn-default btn-lg  custom_short">Why? </button>
+</div>
             </form>
           </div> <!-- left column -->
 
           <div class="col-xs-6">
             <div class="starter-template"> 
               <h4>Place of Birth:</h4>
-              <div id="map" style="width: 500px; height: 200px" class="right">
+              <div id="map" style="width: 400px; height: 400px" class="right">
               <script>
-               var map = L.map('map').setView([51.505, -40], 2);
+               var markers = [[{{ artist_info['lat'] }}, {{ artist_info['lon'] }}], [{{ rec_artists_info[0]['lat'] }}, {{ rec_artists_info[0]['lon'] }}]];
+               //var zoom = Math.min(10, Math.floor(360/(Math.abs({{ artist_info['lat'] }} - {{ rec_artists_info[0]['lat'] }})))-2); 
+               //var map = L.map('map').setView([({{ artist_info['lat'] }}+{{ rec_artists_info[0]['lat'] }})/2, ({{ artist_info['lon'] }} + {{ rec_artists_info[0]['lon'] }})/2], 5);
+               var map = L.map('map').fitBounds(markers);
                L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			           maxZoom: 18,
 			           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -194,12 +207,27 @@
 			           id: 'examples.map-i875mjb7'
 		           }).addTo(map);
 
-		           L.circleMarker([{{ artist_info['lat'] }}, {{ artist_info['lon'] }}], {color:"red"}).addTo(map)
-		            .bindPopup("{{ artist }}").openPopup();                  
+		           /* L.marker(markers[0]).addTo(map)
+		              .bindPopup("{{ artist }}").openPopup();                  
 
-		           L.marker([{{ rec_artists_info[0]['lat'] }}, {{ rec_artists_info[0]['lon'] }}]).addTo(map)
-		            .bindPopup("{{ rec_artists[0][0] }}").openPopup();                  
+		              L.marker(markers[1]).addTo(map)
+		              .bindPopup("{{ rec_artists[0][0] }}").openPopup(); */
+             
+              popup0 = new L.Popup();
+
+              popup0.setLatLng(markers[0]);
+              popup0.setContent('{{ artist }}');
+              
+              
+              popup1 = new L.Popup();
+              
+              
+              popup1.setLatLng(markers[1]);
+              popup1.setContent('{{ rec_artists[0][0] }}');
+              
+              map.addLayer(popup0).addLayer(popup1);
               </script>
+ 
               </div>
             </div>
 

@@ -48,6 +48,9 @@ div.btn{
     margin-bottom:20px;
 }
 
-.custom{
-    width: 400px !important;
+.custom_long{
+    width: 300px !important;
+}
+.custom_short{
+    width: 100px !important;
 }

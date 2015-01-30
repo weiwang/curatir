@@ -14,15 +14,16 @@ import pprint as pp
 wiki_dump = json.load(open("wikipedia_text_dump.json"))
 documents = wiki_dump.values()
 artist_names = wiki_dump.keys()
+artist_lastname = [unidecode.unidecode(urllib.unquote(a.split("/")[-1].split("_")[-1].encode("utf-8")).decode("utf-8")).lower() for a in artist_names]
 texts_with_tag = [[w for w in utils.lemmatize(document)] for document in documents] # lemmatize and taggings
 texts = [[w.split('/')[0] for w in text] for text in texts_with_tag]
-texts_adj = [[w.split('/')[0] for w in text if w.split('/')[1]=="JJ"] for text in texts_with_tag]
+
 dictionary = corpora.Dictionary(texts)
 
 
 bow = False
 corpus_bow = [dictionary.doc2bow(text) for text in texts]
-
+texts_adj = [[w.split('/')[0] for w in text if w.split('/')[1]=="JJ" and w.split('/')[0] not in artist_lastname] for text in texts_with_tag]
 dictionary_adj = corpora.Dictionary(texts_adj)
 corpus_adj_bow = [dictionary.doc2bow(text) for text in texts_adj]
 
@@ -36,7 +37,13 @@ tfidf_adj = models.TfidfModel(corpus_adj_bow)
 ## corpus_adj_tfidf = tfidf_adj[corpus_adj_bow]
 for i in range(0, 101):
     print "\nThe 10 most common adj for " + artist_names[i].split('/')[-1] + ": "
-    print [dictionary[i] for i in [a[0] for a in sorted(tfidf_adj[corpus_adj_bow[i]], key=lambda x: x[1], reverse=True)[:10]]]
+    print [dictionary[j] for j in [a[0] for a in sorted(tfidf_adj[corpus_adj_bow[i]], key=lambda x: x[1], reverse=True)[:10]]]
+
+keywords = {}
+for i in range(0, 101):
+    keywords[unidecode.unidecode(urllib.unquote(artist_names[i].split('/')[-1].replace("_", " ").encode("utf-8")).decode("utf-8"))] = [unidecode.unidecode(dictionary[j]) for j in [a[0] for a in sorted(tfidf_adj[corpus_adj_bow[i]], key=lambda x: x[1], reverse=True)[:10]]]
+
+json.dump(keywords, open("../../app/static/keywords_101.json", "wb"))
 
 def ImpWords(i):
     return [dictionary[i] for i in [a[0] for a in sorted(tfidf_adj[corpus_adj_bow[i]], key=lambda x: x[1], reverse=True)[:20]]]

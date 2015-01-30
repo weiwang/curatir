@@ -45,12 +45,22 @@ div.right{
 
 
 div.btn{
-    margin-bottom:20px;
+    margin-bottom:0px;
 }
 
 .custom_long{
-    width: 300px !important;
+    width: 250px !important;
 }
 .custom_short{
-    width: 80px !important;
+    width: 110px !important;
+}
+
+.fixed-cell {
+    min-width: 40px;
+    min-height: 20px;
+    margin: 5px;
+    position: fixed;
+    text-align: center;
+    border: #969696 solid thin;
+    padding: 5px;
 }

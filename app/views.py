@@ -46,6 +46,7 @@ def output():
     json_url = os.path.join(SITE_ROOT, "static", "artist_101_names.json")
     pickle_url = os.path.join(SITE_ROOT, "static", "dist_mat")
     info_url = os.path.join(SITE_ROOT, "static", "artist_101_info.json")
+    keywords_url = os.path.join(SITE_ROOT, "static", "keywords_101.json")
     dist_mat = pickle.load(open(pickle_url))
     artist_names = json.load(open(json_url))
     artist_names = [x for (y,x)  in sorted(zip([int(k) for k in artist_names.keys()], artist_names.values()))]
@@ -62,5 +63,10 @@ def output():
     for venue in set([artwork['venue'] for artwork in artworks]):
         artworks_by_venue.append([artwork for artwork in artworks if artwork['venue']==venue])
 
-    return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info)
+    ## keywords
+    all_keywords = json.load(open(keywords_url))
+    rec_keywords = [" : ".join(all_keywords[a[0]]) for a in rec_artists]
+    artist_keywords = all_keywords[artist]
+
+    return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, artist_keywords=artist_keywords,  rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info, rec_keywords = rec_keywords)
 

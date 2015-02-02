@@ -8,10 +8,10 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 artists = json.load(open('../../app/static/artist_101_names.json')) ## this is for query wikipedia
 dump = {page.url:page.content for page in [wikipedia.page(artist) for artist in artists.values()]}
 
-json.dump(dump, open("wikipedia_text_dump.json", "wb"))
+json.dump(dump, open("wiki_dump_101.json", "wb"))
 
 ## DBpedia for b and d dates
-artists_url = [url.split('/')[-1] for url in json.load(open("wikipedia_text_dump.json")).keys()]
+artists_url = [url.split('/')[-1] for url in json.load(open("wiki_dump_101.json")).keys()]
 def unquote_uni(artist):
     return unidecode(urllib.unquote(artist.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8"))
 info = {unquote_uni(artist):{"birthYear":None, "deathYear":None, "birthPlace":None, "lat":None, "lon":None} for artist in artists_url}  
@@ -59,7 +59,9 @@ len({k:v for k,v in zip(info.keys(), info.values()) if v["deathYear"]==None} )
 json.dump(info, open("../../app/static/artist_101_info.json", "wb"))
 
 ## Wikipedia info box for BirthPlace and Picture
-for url in json.load(open("wikipedia_text_dump.json")).keys():
+for url in json.load(open("wiki_dump_101.json")).keys():
     html = scraperwiki.scrape(url)
     root = lxml.html.fromstring(html)
     print root.xpath("//span[@class='birthplace']/text()")
+
+

@@ -141,9 +141,17 @@
       <div class="starter-template">
         <h3>{{ artist }} ({{ artist_info['birthYear']}}-{{ artist_info['deathYear']}}) </h3>
         <h3> {{ artworks|length }} total </h3>
+        <span class="btn-group">
         {% for key in artist_keywords %}
-        <button  class="btn btn-custom"> {{ key }} </button>
-        {% endfor %}
+        <button  class="btn btn-custom dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span></button> 
+         <ul class="dropdown-menu" role="menu">
+           <li><a href="#"> {{ key }} 1</a></li>
+           <li><a href="#"> {{ key }} 2</a></li>
+           <li><a href="#"> {{ key }} 3</a></li>
+           <li><a href="#"> {{ key }} 4</a></li>
+         </ul>
+         {% endfor %}
+        </span>
       </div>
       
       {% for artwork_one_venue in artworks_by_venue %}
@@ -177,59 +185,92 @@
             <form action="/output" method="GET">
               <div class="btn-group-vertical" role="group"> 
               <div class="btn-group-horizontal" role="group">
-                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }} " class="pull-left btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }} ({{ rec_artists_info[0]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}}) </button>
-                <!-- <button type="button" onclick="renderAll('0')" class="btn btn-default btn-lg  custom_short">explore </button> -->
+                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }} " class="pull-left btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }} </button>
+                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[0]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}}  </button> 
                 <button type="button" onclick="$('#target0').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> </button> 
                 <!-- <button type="button" data-toggle="collapse" data-target="#target0" aria-expanded="false" aria-controls="target0" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>
-                <div class="btn" id="target0" style="display: none">
+                <div class="btn btn-group-horizontal" id="target0" style="display: none">
                   {% for key in rec_keywords[0] %}
-                  <button type="button"  class="btn btn-primary"> {{ key }} </button>
+                  <button type="button"  class="btn btn-primary dropdown-toggle" data-toggle="dropdown" > {{ key }} <span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#"> {{ key }} 1</a></li>
+                    <li><a href="#"> {{ key }} 2</a></li>
+                    <li><a href="#"> {{ key }} 3</a></li>
+                    <li><a href="#"> {{ key }} 4</a></li>
+                  </ul>
                   {% endfor %}
                 </div>
               <div class="btn-group-horizontal">
-                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="pull-left btn btn-info btn-lg  custom_long">{{ rec_artists[1][0] }} ({{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}})</button>
+                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="pull-left btn btn-info btn-lg  custom_long">{{ rec_artists[1][0] }} </button>
                 <!-- <button type="button"  onclick="renderAll('1')"  class="btn btn-default btn-lg  custom_short">explore </button> -->
+                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
                 <button type="button" onclick="$('#target1').toggle();" class="btn btn-default btn-lg  custom_short">explore</button>
               </div>
-                <div class="btn" id="target1" style="display: none">
+                <div class="btn btn-group-horizontal" id="target1" style="display: none">
                   {% for key in rec_keywords[1] %}
-                  <button type="button"  class="btn btn-info "> {{ key }} </button>
+                  <button type="button"  class="btn btn-info  dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span> </button>
+                   <ul class="dropdown-menu" role="menu">
+                    <li><a href="#"> {{ key }} 1</a></li>
+                    <li><a href="#"> {{ key }} 2</a></li>
+                    <li><a href="#"> {{ key }} 3</a></li>
+                    <li><a href="#"> {{ key }} 4</a></li>
+                  </ul>
                   {% endfor %}
                 </div>
                   <!-- <button id="target1" style="display: none" class="btn btn-info btn-lg "> {{ rec_keywords[1][0] }} </button> -->
       
               <div class="btn-group-horizontal">
-                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="pull-left btn btn-success btn-lg  custom_long">{{ rec_artists[2][0] }} ({{ rec_artists_info[2]['birthYear']}}-{{ rec_artists_info[2]['deathYear']}})</button>
+                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="pull-left btn btn-success btn-lg  custom_long">{{ rec_artists[2][0] }}</button>
+                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
                 <!-- <button  type="button"  onclick="renderAll('2')"   class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <button type="button" onclick="$('#target2').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> 
               </div>
-                <div class="btn" id="target2" style="display: none">
+                <div class="btn btn-group-horizontal" id="target2" style="display: none">
                   {% for key in rec_keywords[2] %}
-                  <button type="button"  class="btn btn-success "> {{ key }} </button>
+                  <button type="button"  class="btn btn-success dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span> </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#"> {{ key }} 1</a></li>
+                    <li><a href="#"> {{ key }} 2</a></li>
+                    <li><a href="#"> {{ key }} 3</a></li>
+                    <li><a href="#"> {{ key }} 4</a></li>
+                  </ul>
                   {% endfor %}
                 </div>
                   <!-- <button id="target2" style="display: none" class="btn btn-success btn-lg "> {{ rec_keywords[2][0] }} </button> -->        
               <div class="btn-group-horizontal">
-                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="pull-left btn btn-warning btn-lg  custom_long">{{ rec_artists[3][0] }} ({{ rec_artists_info[3]['birthYear']}}-{{ rec_artists_info[3]['deathYear']}})</button>
-
+                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="pull-left btn btn-warning btn-lg  custom_long">{{ rec_artists[3][0] }} </button>
+                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[3]['birthYear']}}-{{ rec_artists_info[3]['deathYear']}}  </button> 
                 <!-- <button  type="button" onclick="renderAll('3')"  class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <button type="button" onclick="$('#target3').toggle();" class="btn btn-default btn-lg  custom_short">explore</button>
                 </div>
-                <div class="btn" id="target3" style="display: none">
+                <div class="btn btn-horizontal" id="target3" style="display: none">
                   {% for key in rec_keywords[3] %}
-                  <button type="button"  class="btn btn-warning "> {{ key }} </button>
+                  <button type="button"  class="btn btn-warning dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span>  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#"> {{ key }} 1</a></li>
+                    <li><a href="#"> {{ key }} 2</a></li>
+                    <li><a href="#"> {{ key }} 3</a></li>
+                    <li><a href="#"> {{ key }} 4</a></li>
+                  </ul>
                   {% endfor %}
                 <!-- <button id="target3" style="display: none" class="btn btn-warning btn-lg "> {{ rec_keywords[3][0] }} </button> -->
               </div>
               <div class="btn-group-horizontal">
-                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="pull-left btn btn-danger btn-lg  custom_long">{{ rec_artists[4][0] }} ({{ rec_artists_info[4]['birthYear']}}-{{ rec_artists_info[4]['deathYear']}})</button> 
+                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="pull-left btn btn-danger btn-lg  custom_long">{{ rec_artists[4][0] }} </button> 
+                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[4]['birthYear']}}-{{ rec_artists_info[4]['deathYear']}}  </button> 
                 <!-- <button  type="button" onclick="renderAll('4')"  class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <button type="button" onclick="$('#target4').toggle();" class="btn btn-default btn-lg  custom_short">explore</button>
               </div>                
                 <div class="btn" id="target4" style="display: none">
                   {% for key in rec_keywords[4] %}
-                  <button type="button"  class="btn btn-danger "> {{ key }} </button>
+                  <button type="button"  class="btn btn-danger dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span> </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#"> {{ key }} 1</a></li>
+                    <li><a href="#"> {{ key }} 2</a></li>
+                    <li><a href="#"> {{ key }} 3</a></li>
+                    <li><a href="#"> {{ key }} 4</a></li>
+                  </ul>
                   {% endfor %}<!-- <button id="target4" style="display: none" class="btn btn-danger btn-lg "> {{ rec_keywords[4][0] }} </button> -->
               </div>
               </div> 

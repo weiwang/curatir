@@ -49,7 +49,7 @@ div.btn{
 }
 
 .custom_long{
-    width: 450px !important;
+    width: 350px !important;
 }
 .custom_short{
     width: 110px !important;
@@ -81,3 +81,5 @@ div.btn{
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.69);
   -webkit-font-smoothing: antialiased;
 }
+
+h3 .btn-group { display: inline-block; }

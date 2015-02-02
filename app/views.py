@@ -65,7 +65,7 @@ def output():
 
     ## keywords
     all_keywords = json.load(open(keywords_url))
-    rec_keywords = [" : ".join(all_keywords[a[0]]) for a in rec_artists]
+    rec_keywords = [all_keywords[a[0]] for a in rec_artists]
     artist_keywords = all_keywords[artist]
 
     return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, artist_keywords=artist_keywords,  rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info, rec_keywords = rec_keywords)

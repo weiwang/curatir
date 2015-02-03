@@ -3,18 +3,18 @@ from gensim.models import hdpmodel, ldamodel, lsimodel
 from gensim.utils import lemmatize
 import HTMLParser 
 import urllib
-import unidecode
+from unidecode import unidecode
 from collections import Counter
 from itertools import izip
 import json
 import cPickle as pickle
 import operator
 import pprint as pp
-import pyro4
+
 
 ## preparations
 wiki_dump = json.load(open("wiki_dump.json"))
-wiki_dump_101 = json.load(open("wiki_dump_101.json"))
+# wiki_dump_101 = json.load(open("wiki_dump_101.json"))
 # wiki_dump.update(wiki_dump_101)
 # json.dump(wiki_dump, open("wiki_dump.json", "wb"))
 documents = wiki_dump.values()
@@ -23,6 +23,7 @@ artist_name_break = [map(lambda x: urllib.unquote(x.encode("utf-8")).decode("utf
 artist_name_break = set(sum(artist_name_break, []))
 stoplist = set('for a of the and to in'.split())
 texts_with_tag = [[w for w in utils.lemmatize(document)] for document in documents] # lemmatize and taggings
+pickle.dump(texts_with_tag, open("texts_with_tag.dump", "wb"))
 texts = [[w.split('/')[0] for w in text] for text in texts_with_tag]
 
 # all_tokens = sum(texts, [])
@@ -51,9 +52,9 @@ def word_to_artist(word, show_all=False):
     else:
         sims = {a:b for a, b in zip(artist_names, sims) if a in artists_url}
     sorted_sims = sorted(sims.items(), key=operator.itemgetter(1), reverse=True)
-    print "Artists related to " + str(len(sorted_sims)) + word
-    pp.pprint([[x[0].split('/')[-1], x[1]] for x in sorted_sims][1:100])
-
+    # print "Artists related to " + str(len(sorted_sims)) + word
+    # pp.pprint([[x[0].split('/')[-1], x[1]] for x in sorted_sims][:10])
+    return [a[0] for a in [[x[0].split('/')[-1], x[1]] for x in sorted_sims][:5]]
 
 
 texts_adj = [[w.split('/')[0] for w in text if w.split('/')[1]=="JJ" and w.split('/')[0] not in artist_name_break] for text in texts_with_tag]
@@ -80,35 +81,33 @@ for url in artists_url:
     except:
         pass
 
+keywords_artists = {keyword:[url_name_extract(a) for a in word_to_artist(keyword)] for keyword in list(set(sum(keywords.values(),[])))}
 
+json.dump(keywords_artists, open("../../app/static/keywords_to_artists.json", "wb"))
 
-# json.dump(keywords, open("../../app/static/keywords_101.json", "wb"))
+json.dump(keywords, open("../../app/static/keywords_101.json", "wb"))
 
 def ImpWords(i):
     return [dictionary[i] for i in [a[0] for a in sorted(tfidf_adj[corpus_adj_bow[i]], key=lambda x: x[1], reverse=True)[:20]]]
 
 
-def rec(num):
-    sims = index[lsi[tfidf[corpus_bow[num]]]]
-    sims = {a:b for a, b in zip(artist_names, sims)}
-    sorted_sims = sorted(sims.items(), key=operator.itemgetter(1), reverse=True)
-    print "Artists similar to " + artist_names[num].split('/')[-1]
-    pp.pprint([x[0].split('/')[-1] for x in sorted_sims][1:6])
-
-
 #artist_names_clean = json.load(open('../../app/static/artist_101_names_display.json'))
 #artist_names_clean = [a[1] for a in sorted([[int(k),v] for k,v in zip(artist_names_clean.keys(), artist_names_clean.values())], key=lambda x: x[0])]
-artist_names_display = [unidecode(urllib.unquote(a.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8")) for a in artist_names]
-json.dump({k:v for k,v in zip(range(0,101), artist_names_display)}, open("../../app/static/artist_101_names_display.json", "wb"))
+# artist_names_display = [unidecode(urllib.unquote(a.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8")) for a in artist_names]
+# json.dump({k:v for k,v in zip(range(0,101), artist_names_display)}, open("../../app/static/artist_101_names_display.json", "wb"))
+def url_name_extract(url):
+    return unidecode(urllib.unquote(url.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8"))
+
 dist_mat = {}
-for num in range(0, 101):
+for artist in artists_url:
+    num = artist_names.index(artist)
     sims = index[lsi[tfidf[corpus_bow[num]]]]
-    sims = {a:b for a, b in zip(artist_names_display, sims)}
+    sims = {url_name_extract(a):b for a, b in zip(artist_names, sims) if a in artists_url}
     sorted_sims = sorted(sims.items(), key=operator.itemgetter(1), reverse=True)
     sorted_sims = [list(a) for a in sorted_sims]
-    dist_mat[artist_names_display[num]] = (sorted_sims[1:])
+    dist_mat[url_name_extract(artist)] = (sorted_sims[1:]) # not including the artist herself
 
-## pickle.dump(dist_mat, open("../../app/static/dist_mat", 'wb'))
+pickle.dump(dist_mat, open("../../app/static/dist_mat", 'wb'))
 
 
 ## Latent Dirichelt Allocation

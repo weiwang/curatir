@@ -145,10 +145,11 @@
         {% for key in artist_keywords %}
         <button  class="btn btn-custom dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span></button> 
          <ul class="dropdown-menu" role="menu">
-           <li><a href="#"> {{ key }} 1</a></li>
-           <li><a href="#"> {{ key }} 2</a></li>
-           <li><a href="#"> {{ key }} 3</a></li>
-           <li><a href="#"> {{ key }} 4</a></li>
+           <li><a href="#"> {{ keywords_to_artist[key][0] }} </a></li>
+           <li><a href="#"> {{ keywords_to_artist[key][1] }} </a></li>
+           <li><a href="#"> {{ keywords_to_artist[key][2] }} </a></li>
+           <li><a href="#"> {{ keywords_to_artist[key][3] }} </a></li>
+           <li><a href="#"> {{ keywords_to_artist[key][4] }} </a></li>
          </ul>
          {% endfor %}
         </span>
@@ -185,7 +186,7 @@
             <form action="/output" method="GET">
               <div class="btn-group-vertical" role="group"> 
               <div class="btn-group-horizontal" role="group">
-                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }} " class="pull-left btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }} </button>
+                <button type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="pull-left btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }}</button>
                 <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[0]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}}  </button> 
                 <button type="button" onclick="$('#target0').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> </button> 
                 <!-- <button type="button" data-toggle="collapse" data-target="#target0" aria-expanded="false" aria-controls="target0" class="btn btn-default btn-lg  custom_short">explore</button> -->

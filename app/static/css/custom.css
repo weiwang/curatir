@@ -51,6 +51,9 @@ div.btn{
 .custom_long{
     width: 350px !important;
 }
+.custom_drop{
+    width: 200px !important;
+}
 .custom_short{
     width: 110px !important;
 }

@@ -145,11 +145,13 @@
         {% for key in artist_keywords %}
         <button  class="btn btn-custom dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span></button> 
          <ul class="dropdown-menu" role="menu">
-           <li><a href="#"> {{ keywords_to_artist[key][0] }} </a></li>
-           <li><a href="#"> {{ keywords_to_artist[key][1] }} </a></li>
-           <li><a href="#"> {{ keywords_to_artist[key][2] }} </a></li>
-           <li><a href="#"> {{ keywords_to_artist[key][3] }} </a></li>
-           <li><a href="#"> {{ keywords_to_artist[key][4] }} </a></li>
+           <form action="/output" method="GET">
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][0] }}"> {{ keywords_to_artist[key][0] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][1] }}"> {{ keywords_to_artist[key][1] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][2] }}"> {{ keywords_to_artist[key][2] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][3] }}"> {{ keywords_to_artist[key][3] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][4] }}"> {{ keywords_to_artist[key][4] }} </button></li>
+           </form>
          </ul>
          {% endfor %}
         </span>

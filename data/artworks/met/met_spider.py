@@ -31,7 +31,7 @@ def scrape_page(root, material):
             #'location' : displayLoc,
             'image' : image,
             'material' : material,
-            'venue' : "Metropolitan Museum of Arts"
+            'venue' : "Metropolitan Museum of Art"
             }
         ##        print item
         return item

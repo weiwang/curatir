@@ -1,7 +1,7 @@
 from gensim import corpora, models, similarities, utils
 from gensim.models import hdpmodel, ldamodel, lsimodel
 from gensim.utils import lemmatize
-import HTMLParser 
+import HTMLParser
 import urllib
 from unidecode import unidecode
 from collections import Counter
@@ -10,7 +10,11 @@ import json
 import cPickle as pickle
 import operator
 import pprint as pp
+import csv
 
+
+def url_name_extract(url):
+    return unidecode(urllib.unquote(url.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8"))
 
 ## preparations
 wiki_dump = json.load(open("wiki_dump.json"))
@@ -22,14 +26,16 @@ artist_names = wiki_dump.keys()
 artist_name_break = [map(lambda x: urllib.unquote(x.encode("utf-8")).decode("utf-8").lower(), a.split("/")[-1].split("_")) for a in artist_names]
 artist_name_break = set(sum(artist_name_break, []))
 stoplist = set('for a of the and to in'.split())
-texts_with_tag = [[w for w in utils.lemmatize(document)] for document in documents] # lemmatize and taggings
-pickle.dump(texts_with_tag, open("texts_with_tag.dump", "wb"))
+
+# texts_with_tag = [[w for w in utils.lemmatize(document)] for document in documents] # lemmatize and taggings
+# pickle.dump(texts_with_tag, open("texts_with_tag.dump", "wb"))
+
+texts_with_tag = pickle.load(open("texts_with_tag.dump"))
 texts = [[w.split('/')[0] for w in text] for text in texts_with_tag]
 
 # all_tokens = sum(texts, [])
 # tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1)
-
-filter_set = set.intersection(artist_name_break, stoplist, token_once)
+# filter_set = set.intersection(artist_name_break, stoplist, token_once)
 ## texts = [[word for word in text if word not in filter_set] for text in texts]
 dictionary = corpora.Dictionary(texts)
 bow = False
@@ -37,9 +43,20 @@ corpus_bow = [dictionary.doc2bow(text) for text in texts]
 tfidf = models.TfidfModel(corpus_bow)
 corpus_tfidf = tfidf[corpus_bow]
 
-## LSA for 
+## LSA for
 lsi = lsimodel.LsiModel(corpus=corpus_tfidf, id2word=dictionary, num_topics=50)
 index = similarities.MatrixSimilarity(lsi[corpus_tfidf])
+
+
+artists_url = [url for url in json.load(open("wiki_dump_101.json")).keys()]
+artists_index = [artist_names.index(url) for url in artist_names if url in artists_url]
+
+corr =[ similarity for similarity in index[lsi[corpus_tfidf]]]
+corr = [[corr[j][i] for i in artists_index] for j in artists_index]
+with open("corr.csv", "wb") as f:
+    writer = csv. writer(f)
+    writer.writerow([url_name_extract(url) for url in artists_url])
+    writer.writerows(corr)
 
 def word_to_artist(word, show_all=False):
     """
@@ -62,8 +79,10 @@ dictionary_adj = corpora.Dictionary(texts_adj)
 corpus_adj_bow = [dictionary.doc2bow(text) for text in texts_adj]
 tfidf_adj = models.TfidfModel(corpus_adj_bow)
 
-artists_url = [url for url in json.load(open("wiki_dump_101.json")).keys()]
-artists_index = [artist_names.index(url) for url in artist_names if url in artists_url]
+## MDS
+coords = [map(lambda x:x[1], lsi[tfidf[corpus_bow[i]]]) for i in range(0, 101)]
+artist_name_display = [url_name_extract(url) for url in artists_url]
+
 ## corpus_adj_tfidf = tfidf_adj[corpus_adj_bow]
 for url in artists_url:
     try:
@@ -95,8 +114,6 @@ def ImpWords(i):
 #artist_names_clean = [a[1] for a in sorted([[int(k),v] for k,v in zip(artist_names_clean.keys(), artist_names_clean.values())], key=lambda x: x[0])]
 # artist_names_display = [unidecode(urllib.unquote(a.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8")) for a in artist_names]
 # json.dump({k:v for k,v in zip(range(0,101), artist_names_display)}, open("../../app/static/artist_101_names_display.json", "wb"))
-def url_name_extract(url):
-    return unidecode(urllib.unquote(url.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8"))
 
 dist_mat = {}
 for artist in artists_url:

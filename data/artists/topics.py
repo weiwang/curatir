@@ -51,7 +51,7 @@ index = similarities.MatrixSimilarity(lsi[corpus_tfidf])
 artists_url = [url for url in json.load(open("wiki_dump_101.json")).keys()]
 artists_index = [artist_names.index(url) for url in artist_names if url in artists_url]
 
-corr =[ similarity for similarity in index[lsi[corpus_tfidf]]]
+corr =[similarity for similarity in index[lsi[corpus_tfidf]]]
 corr = [[corr[j][i] for i in artists_index] for j in artists_index]
 with open("corr.csv", "wb") as f:
     writer = csv. writer(f)

@@ -1,20 +1,19 @@
 import scraperwiki
 import lxml.html
 import urlparse
+import urllib
 import json
-import rdflib import Graph, URIRef
-from SPARQLWrapper import SPARQLWrapper, JSON
-
-artists = json.load(open('../../app/static/artist_101_names.json')) ## this is for query wikipedia
-dump = {page.url:page.content for page in [wikipedia.page(artist) for artist in artists.values()]}
-
-json.dump(dump, open("wiki_dump_101.json", "wb"))
+from rdflib import Graph, URIRef
+from unidecode import unidecode
+from geopy.geocoders import Nominatim
 
 ## DBpedia for b and d dates
-artists_url = [url.split('/')[-1] for url in json.load(open("wiki_dump_101.json")).keys()]
+artists_url = [url.split('/')[-1] for url in json.load(open("wiki_dump.json")).keys()]
 def unquote_uni(artist):
     return unidecode(urllib.unquote(artist.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8"))
-info = {unquote_uni(artist):{"birthYear":None, "deathYear":None, "birthPlace":None, "lat":None, "lon":None} for artist in artists_url}  
+wiki_prefix = "https://en.wikipedia.org/wiki/"
+info = {unquote_uni(artist):{"birthYear":'????', "deathYear":'????', "birthPlace":'Not available', "birthAddress":'Not available' ,"lat":'Not available', "lon":'Not available', "wiki":wiki_prefix+artist} for artist in artists_url}  
+geolocator = Nominatim()
 
 def get_geo(place_url):
     try:
@@ -29,6 +28,7 @@ def get_geo(place_url):
     except:
         return None
 
+counter = 0
 for artist in artists_url:
     un_artist = unquote_uni(artist)
     g = Graph()
@@ -49,15 +49,43 @@ for artist in artists_url:
             if geo:
                 info[un_artist]["lat"]=geo["lat"]
                 info[un_artist]["lon"]=geo["lon"]
+                info[un_artist]["birthAddress"] = geolocator.reverse([geo['lat'], geo['lon']]).address
                 break
             else:
                 continue
-    print un_artist, info[un_artist]
+    counter = counter + 1
+    print counter
 
 # find how many artists have no deathyear                
 len({k:v for k,v in zip(info.keys(), info.values()) if v["deathYear"]==None} )
 
-json.dump(info, open("../../app/static/artist_101_info.json", "wb"))
+
+# def remove_None(x):
+#     if x["birthYear"] is None:
+#         x["birthYear"]="????";
+#     if x["deathYear"] is None:
+#         x["deathYear"]="????";
+#     if x["birthPlace"] is None:
+#         x["deathYear"]="????";
+#     return x;
+
+# def add_born_country(x):
+#     geolocator = Nominatim()
+#     if x["lat"] is not None:
+#         x["birthAddress"] = geolocator.reverse([x['lat'], x['lon']]).address
+#     else:
+#         x["lat"] = 'Not available'
+#         x["lon"] = 'Not available'
+#         x["birthAddress"] = 'Not available'
+#     return x
+
+# values = map(remove_None, values)
+
+# values = map(add_born_country, values)
+# new_info = {key:value for key, value in zip(info.keys(), values)}
+
+
+json.dump(info, open("../../app/static/artist_info.json", "wb"))
 
 ## Wikipedia info box for BirthPlace and Picture
 for url in json.load(open("wiki_dump_101.json")).keys():

@@ -139,27 +139,13 @@
 
     <div class="container"> 
       <div class="starter-template">
-        <h3>{{ artist }} ({{ artist_info['birthYear']}}-{{ artist_info['deathYear']}}) </h3>
-        <h3> {{ artworks|length }} total </h3>
-        {% for key in artist_keywords %}
-        <div class="btn-group">
-        <button  class="btn btn-custom dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span></button> 
-         <ul class="dropdown-menu" role="menu">
-           <form action="/output" method="GET">
-           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][0] }}"> {{ keywords_to_artist[key][0] }} </button></li>
-           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][1] }}"> {{ keywords_to_artist[key][1] }} </button></li>
-           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][2] }}"> {{ keywords_to_artist[key][2] }} </button></li>
-           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][3] }}"> {{ keywords_to_artist[key][3] }} </button></li>
-           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][4] }}"> {{ keywords_to_artist[key][4] }} </button></li>
-           </form>
-         </ul>
-        </div>
-         {% endfor %}
+
+        <h3> {{ artworks|length }} artwork(s) by {{ artist }} found in NYC</h3>
       </div>
       
       {% for artwork_one_venue in artworks_by_venue %}
       <div id="links">
-        <p class="lead">{{ artwork_one_venue[0]['venue'] }} : {{  artwork_one_venue|length }}</p>
+        <p class="lead">{{ artwork_one_venue[0]['venue'] }} <a href="{{ venue_links[artwork_one_venue[0]['venue']] }}"> [Visit]</a> : {{  artwork_one_venue|length }} </p>
         {%  for artwork in artwork_one_venue %}
         <a href="#" title="{{ artwork['title'] }}" data-gallery>
           <img style="width:160px;height:160px" src="{{ artwork['image']}}" alt="">
@@ -180,6 +166,24 @@
 
 
       <div class="container">
+        <div class="starter-template">
+        <h3>10 themes associated with {{ artist }} ({{ artist_info['birthYear']}}-{{ artist_info['deathYear']}}) </h3>
+        <p class="lead"></p>
+        {% for key in artist_keywords %}
+        <div class="btn-group">
+        <button  class="btn btn-custom dropdown-toggle" data-toggle="dropdown"> {{ key }} <span class="caret"></span></button> 
+         <ul class="dropdown-menu" role="menu">
+           <form action="/output" method="GET">
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][0] }}"> {{ keywords_to_artist[key][0] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][1] }}"> {{ keywords_to_artist[key][1] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][2] }}"> {{ keywords_to_artist[key][2] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][3] }}"> {{ keywords_to_artist[key][3] }} </button></li>
+           <li><button class="btn btn-custom custom_drop" type="submit" id="ID" name="ID" value= "{{ keywords_to_artist[key][4] }}"> {{ keywords_to_artist[key][4] }} </button></li>
+           </form>
+         </ul>
+        </div>
+        {% endfor %}        </div>
+
             <div class="starter-template left"> 
               <h3>5 artists you might also want to see:</h3>
               <p class="lead"></p>
@@ -189,7 +193,9 @@
               <div class="btn-group-vertical" role="group"> 
               <div class="btn-group-horizontal" role="group">
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="pull-left btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }}</button>
-                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[0]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[0]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}}  </button>
+                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
                 <!-- <button type="button" onclick="$('#target0').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> </button> -->
                 <!-- <button type="button" data-toggle="collapse" data-target="#target0" aria-expanded="false" aria-controls="target0" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>
@@ -208,6 +214,8 @@
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="pull-left btn btn-info btn-lg  custom_long">{{ rec_artists[1][0] }} </button>
                 <!-- <button type="button"  onclick="renderAll('1')"  class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
                 <!-- <button type="button" onclick="$('#target1').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>
               <!-- <div class="btn btn-group-horizontal" id="target1" style="display: none">
@@ -225,6 +233,9 @@
               <div class="btn-group-horizontal">
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="pull-left btn btn-success btn-lg  custom_long">{{ rec_artists[2][0] }}</button>
                 <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+
                 <!-- <button  type="button"  onclick="renderAll('2')"   class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <!-- <button type="button" onclick="$('#target2').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>
@@ -243,6 +254,9 @@
               <div class="btn-group-horizontal">
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="pull-left btn btn-warning btn-lg  custom_long">{{ rec_artists[3][0] }} </button>
                 <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[3]['birthYear']}}-{{ rec_artists_info[3]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+
                 <!-- <button  type="button" onclick="renderAll('3')"  class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <!-- <button type="button" onclick="$('#target3').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>
@@ -261,6 +275,9 @@
               <div class="btn-group-horizontal"> 
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="pull-left btn btn-danger btn-lg  custom_long">{{ rec_artists[4][0] }} </button> 
                 <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[4]['birthYear']}}-{{ rec_artists_info[4]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+
                 <!-- <button type="button" onclick="$('#target4').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>                
               <!-- <div class="btn" id="target4" style="display: none">

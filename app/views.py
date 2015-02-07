@@ -63,6 +63,7 @@ def output():
     artworks_by_venue = []
     for venue in set([artwork['venue'] for artwork in artworks]):
         artworks_by_venue.append([artwork for artwork in artworks if artwork['venue']==venue])
+    venue_links = {"Metropolitan Museum of Art":"http://www.metmuseum.org/visit", "The Museum of Modern Art":"http://www.moma.org/visit/index", 'The Frick Collection':'http://www.frick.org/visit', 'Whitney Museum of American Art':'http://whitney.org/Visit'}
 
     ## keywords
     all_keywords = json.load(open(keywords_url))
@@ -72,5 +73,5 @@ def output():
     keywords_to_artists = json.load(open(keywords_to_artists_url))
     keywords_to_artist = {k:keywords_to_artists[k] for k in artist_keywords}
 
-    return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, artist_keywords=artist_keywords,  rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info, rec_keywords = rec_keywords, keywords_to_artist=keywords_to_artist)
+    return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, artist_keywords=artist_keywords,  rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info, rec_keywords = rec_keywords, keywords_to_artist=keywords_to_artist, venue_links=venue_links)
 

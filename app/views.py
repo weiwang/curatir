@@ -30,8 +30,8 @@ def output():
             cur.execute("select title, image_url, venue, @num := if(@type = venue, @num + 1, 1) as row_number, @type := venue as dummy from artworks WHERE ARTIST='{0}' group by venue, title having row_number <= 36;".format(artist_sql))        
             # cur.execute("SELECT TITLE, IMAGE_URL, VENUE FROM artworks WHERE ARTIST='%s' GROUP BY VENUE;" % artist)
             query_results = cur.fetchall()
-            cur.execute("SELECT TITLE FROM artworks WHERE ARTIST='%s';" % artist_sql)
-            query_results_full = cur.fetchall()
+            # cur.execute("SELECT TITLE FROM artworks WHERE ARTIST='%s';" % artist_sql)
+            # query_results_full = cur.fetchall()
         artworks = []    
         for result in query_results:
             code = {

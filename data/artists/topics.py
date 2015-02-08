@@ -53,10 +53,16 @@ artists_index = [artist_names.index(url) for url in artist_names if url in artis
 
 corr =[similarity for similarity in index[lsi[corpus_tfidf]]]
 corr = [[corr[j][i] for i in artists_index] for j in artists_index]
+
 with open("corr.csv", "wb") as f:
     writer = csv. writer(f)
-    writer.writerow([url_name_extract(url) for url in artists_url])
-    writer.writerows(corr)
+    writer.writerow([url_name_extract(url) for url in artist_names if url in artists_url])
+    for artist in artist_names:
+        if artist in artists_url:
+            num = artist_names.index(artist)
+            sims = [sim for url, sim in zip(artist_names ,index[lsi[tfidf[corpus_bow[num]]]]) if url in artists_url]
+            writer.writerow(sims)
+
 
 def word_to_artist(word, show_all=False):
     """
@@ -72,7 +78,6 @@ def word_to_artist(word, show_all=False):
     # print "Artists related to " + str(len(sorted_sims)) + word
     # pp.pprint([[x[0].split('/')[-1], x[1]] for x in sorted_sims][:10])
     return [a[0] for a in [[x[0].split('/')[-1], x[1]] for x in sorted_sims][:5]]
-
 
 texts_adj = [[w.split('/')[0] for w in text if w.split('/')[1]=="JJ" and w.split('/')[0] not in artist_name_break] for text in texts_with_tag]
 dictionary_adj = corpora.Dictionary(texts_adj)

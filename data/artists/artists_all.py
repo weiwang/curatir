@@ -7,7 +7,7 @@ from rdflib import Graph, URIRef
 from unidecode import unidecode
 from geopy.geocoders import Nominatim
 
-## DBpedia for b and d dates
+## Dbpedia for b and d dates
 artists_url = [url.split('/')[-1] for url in json.load(open("wiki_dump.json")).keys()]
 def unquote_uni(artist):
     return unidecode(urllib.unquote(artist.replace("_", " ").split('/')[-1].encode('utf-8')).decode("utf-8"))
@@ -32,10 +32,10 @@ counter = 0
 for artist in artists_url:
     un_artist = unquote_uni(artist)
     g = Graph()
-    g.parse("http://dbpedia.org/resource/{0}".format(artist))
-    # g.parse("http://dbpedia.org/resource/Andy_Warhol")
-    # g.parse("http://dbpedia.org/resource/Johannes_Vermeer")
-
+    try:
+        g.parse("http://dbpedia.org/resource/{0}".format(artist))
+    except:
+        continue;
     for stmt in g.subject_objects(URIRef("http://dbpedia.org/ontology/birthDate")):
         info[un_artist]["birthYear"] = stmt[1][:4]
     for stmt in g.subject_objects(URIRef("http://dbpedia.org/ontology/deathDate")):
@@ -49,7 +49,7 @@ for artist in artists_url:
             if geo:
                 info[un_artist]["lat"]=geo["lat"]
                 info[un_artist]["lon"]=geo["lon"]
-                info[un_artist]["birthAddress"] = geolocator.reverse([geo['lat'], geo['lon']]).address
+                # info[un_artist]["birthAddress"] = geolocator.reverse([geo['lat'], geo['lon']]).address
                 break
             else:
                 continue
@@ -86,11 +86,3 @@ len({k:v for k,v in zip(info.keys(), info.values()) if v["deathYear"]==None} )
 
 
 json.dump(info, open("../../app/static/artist_info.json", "wb"))
-
-## Wikipedia info box for BirthPlace and Picture
-for url in json.load(open("wiki_dump_101.json")).keys():
-    html = scraperwiki.scrape(url)
-    root = lxml.html.fromstring(html)
-    print root.xpath("//span[@class='birthplace']/text()")
-
-

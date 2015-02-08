@@ -192,9 +192,9 @@
               <div class="btn-group-vertical" role="group"> 
               <div class="btn-group-horizontal" role="group">
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[0][0] }}" class="pull-left btn btn-primary btn-lg  custom_long">{{ rec_artists[0][0] }}</button>
-                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[0]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}}  </button>
-                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_short">{{ rec_artists_info[0]['birthYear']}}-{{ rec_artists_info[0]['deathYear']}}  </button>
+                <button type="button"  class="btn btn-default btn-lg  custom_long"> Born in {{ rec_artists_info[0]['birthAddress'] }}  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> <a href="{{ rec_artists_info[0]['wiki'] }}"> Wikipedia</a>  </button> 
                 <!-- <button type="button" onclick="$('#target0').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> </button> -->
                 <!-- <button type="button" data-toggle="collapse" data-target="#target0" aria-expanded="false" aria-controls="target0" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>
@@ -212,9 +212,9 @@
               <div class="btn-group-horizontal"> 
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[1][0] }}" class="pull-left btn btn-info btn-lg  custom_long">{{ rec_artists[1][0] }} </button>
                 <!-- <button type="button"  onclick="renderAll('1')"  class="btn btn-default btn-lg  custom_short">explore </button> -->
-                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_short">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_long"> Born in {{ rec_artists_info[1]['birthAddress'] }}   </button> 
+                <button type="button"  class="btn btn-default btn-lg"> <a href="{{ rec_artists_info[1]['wiki'] }}"> Wikipedia</a>  </button> 
                 <!-- <button type="button" onclick="$('#target1').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>
               <!-- <div class="btn btn-group-horizontal" id="target1" style="display: none">
@@ -231,9 +231,9 @@
                   <!-- <button id="target1" style="display: none" class="btn btn-info btn-lg "> {{ rec_keywords[1][0] }} </button> -->      
               <div class="btn-group-horizontal">
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[2][0] }}" class="pull-left btn btn-success btn-lg  custom_long">{{ rec_artists[2][0] }}</button>
-                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_short">{{ rec_artists_info[1]['birthYear']}}-{{ rec_artists_info[1]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_long"> Born in {{ rec_artists_info[2]['birthAddress'] }}   </button> 
+                <button type="button"  class="btn btn-default btn-lg"> <a href="{{ rec_artists_info[2]['wiki'] }}"> Wikipedia</a>  </button> 
 
                 <!-- <button  type="button"  onclick="renderAll('2')"   class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <!-- <button type="button" onclick="$('#target2').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
@@ -252,9 +252,9 @@
                   <!-- <button id="target2" style="display: none" class="btn btn-success btn-lg "> {{ rec_keywords[2][0] }} </button> -->        
               <div class="btn-group-horizontal">
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[3][0] }}" class="pull-left btn btn-warning btn-lg  custom_long">{{ rec_artists[3][0] }} </button>
-                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[3]['birthYear']}}-{{ rec_artists_info[3]['deathYear']}}  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_short">{{ rec_artists_info[3]['birthYear']}}-{{ rec_artists_info[3]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_long"> Born in {{ rec_artists_info[3]['birthAddress'] }} </button> 
+                <button type="button"  class="btn btn-default btn-lg"> <a href="{{ rec_artists_info[3]['wiki'] }}"> Wikipedia</a>  </button> 
 
                 <!-- <button  type="button" onclick="renderAll('3')"  class="btn btn-default btn-lg  custom_short">explore </button> -->
                 <!-- <button type="button" onclick="$('#target3').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
@@ -273,9 +273,9 @@
               <!-- </div> -->
               <div class="btn-group-horizontal"> 
                 <button type="submit" id="ID" name="ID" value= "{{ rec_artists[4][0] }}" class="pull-left btn btn-danger btn-lg  custom_long">{{ rec_artists[4][0] }} </button> 
-                <button type="button"  class="btn btn-default btn-lg">{{ rec_artists_info[4]['birthYear']}}-{{ rec_artists_info[4]['deathYear']}}  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Born country  </button> 
-                <button type="button"  class="btn btn-default btn-lg"> Wikipedia link  </button> 
+                <button type="button"  class="btn btn-default btn-lg custom_short">{{ rec_artists_info[4]['birthYear']}}-{{ rec_artists_info[4]['deathYear']}}  </button> 
+                <button type="button"  class="btn btn-default btn-lg  custom_long"> Born in {{ rec_artists_info[4]['birthAddress'] }}  </button> 
+                <button type="button"  class="btn btn-default btn-lg"> <a href="{{ rec_artists_info[4]['wiki'] }}"> Wikipedia</a>  </button> 
 
                 <!-- <button type="button" onclick="$('#target4').toggle();" class="btn btn-default btn-lg  custom_short">explore</button> -->
               </div>                

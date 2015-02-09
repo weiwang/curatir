@@ -57,32 +57,6 @@ for artist in artists_url:
     print counter
 
 # find how many artists have no deathyear                
-len({k:v for k,v in zip(info.keys(), info.values()) if v["deathYear"]==None} )
-
-
-# def remove_None(x):
-#     if x["birthYear"] is None:
-#         x["birthYear"]="????";
-#     if x["deathYear"] is None:
-#         x["deathYear"]="????";
-#     if x["birthPlace"] is None:
-#         x["deathYear"]="????";
-#     return x;
-
-# def add_born_country(x):
-#     geolocator = Nominatim()
-#     if x["lat"] is not None:
-#         x["birthAddress"] = geolocator.reverse([x['lat'], x['lon']]).address
-#     else:
-#         x["lat"] = 'Not available'
-#         x["lon"] = 'Not available'
-#         x["birthAddress"] = 'Not available'
-#     return x
-
-# values = map(remove_None, values)
-
-# values = map(add_born_country, values)
-# new_info = {key:value for key, value in zip(info.keys(), values)}
 
 
 json.dump(info, open("../../app/static/artist_info.json", "wb"))

@@ -13,9 +13,9 @@ db = mdb.connect(user="root", host="localhost", db="nyarts", charset='utf8')
 def index():
     return render_template("input.html")
 
-@app.route('/input')
+@app.route('/slides')
 def input():
-    return render_template("input.html")
+    return render_template("slides.html")
 
 
 @app.route('/output')

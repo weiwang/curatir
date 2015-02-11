@@ -50,20 +50,19 @@
 </section>
 
 
-<!-- <section id="motivation" class="level2" data-background=>
-<h2>Exploring Arts in New York</h2>
+<section id="motivation" class="level2" data-background=>
+  <h2>Finding Arts in New York</h2>
 <ul>
-<li><p class="fragment roll-in">Last year, Vermeer's most famous painting traveled to New York. </p></li>
-<div id="img">  <img height=250 src="../static/figure/girl-pearl-earrings.jpg" class="fragment"></div>
-<li><p class="fragment roll-in">But I missed it and it is back in Amsterdam now &#9785</p></li>
+  <li><p class="fragment roll-in">How many Picassos are in New York?</p></li>
+  <div id="img">  <img height=400 src="../static/figure/picasso.png" class="fragment"></div>
 </ul>
-</section>-->
+</section>
 <section id="demo" class="level2">
 <h2>Demo</h2>
 <ul>
 <li>Go to <a href="http://curatir.weiwang.io"> http://curatir.weiwang.io </a></li>
 </ul>
-</section> 
+</section>
   <!-- python scraperwiki major NYC museusm ~8,000 artworks -->
   <!-- Kimonolabs all wikipedia painters pages ~3,000 articles -->
   <!-- DBpedia graph knowledge about the painters-->
@@ -81,7 +80,7 @@
   <!-- gunicorn -->
   <!-- supervisor -->
 <!--</section> -->
-<section id="the-stack" class="level2"> 
+<section id="the-stack" class="level2">
   <h2>The Stack</h2>
   <figure>
   <img src="../static/figure/curatir_stack_flowchart.png" alt="Data Pipeline" /><figcaption>Data Pipeline</figcaption>
@@ -89,17 +88,20 @@
 </section>
 
 <section id="a-slide-to-display-multi-dimensional-scaling-of-artists" class="level2">
-  <h2>Cosine Similarity between Painters</h2>
+  <h2>Thematic Analysis of Painters</h2>
   <div  style="float:left; width: 400px">
     <ul>
-      <li><p id="small"  class="fragment roll-in">TFiDF adjusted term frequency distribution is calculated for each artist.</a></li>
+      <li><p id="small" >Tokenize->Stem->Tag->TFiDF</a></li>
         <li><p id="small" class="fragment roll-in">Latent Semantic Indexing (SVD) is used to linearly project the term frequency distribution to a lower dimensional (50) space.</a></li>
-          <li><p id="small" class="fragment roll-in">Cosine similarities between artists are calculated. </a></li>
+          <li><p id="small" class="fragment roll-in">Cosine similarities between artists are calculated.
+          </p>
+</li>
     </ul>
   </div>
-  <div style="float:left; width: 560px; height: 500px" class="fragment roll-in">
-    <img height=570 src="../static/figure/similarity.png" alt="" />
+  <div style="float:left; width: 560px; height: 500px">
+    <img height=570 src="../static/figure/similarity.png" alt="" class="fragment roll-in"/>
   </div>
+
 </section>
 
 <section id="Separation-of-genres" class="level2">
@@ -169,12 +171,12 @@
 
   // Optional libraries used to extend on reveal.js
   dependencies: [
-    { src: 'reveal_js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-    { src: 'reveal_js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'reveal_js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'reveal_js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-    { src: 'reveal_js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-    { src: 'reveal_js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    { src: '../static/reveal_js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: '../static/reveal_js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: '../static/reveal_js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: '../static/reveal_js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    { src: '../static/reveal_js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+    { src: '../static/reveal_js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
     // { src: 'reveal_js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
   ]
   });

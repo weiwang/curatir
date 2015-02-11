@@ -1,5 +1,6 @@
 library(reshape2)
 library(ggplot2)
+library(ggthemes)
 
 # set up ggplot theme
 theme_set(theme_bw())
@@ -73,8 +74,8 @@ colnames(pdata) <- c("x", "y")
 pdata['label'] <- rownames(pdata)
 pdata['genre'] <- rep(c("impressionist", "classical", "dutch", "abstract", 'post-imp'), rep(4, 5))
 
-p <- ggplot(data=pdata, aes(x=x, y=y, label=label, color=factor(genre)))
+p <- ggplot(data=pdata, aes(x=x, y=y, label=label, color=genre))
 p <- p + geom_text() + labs(x="Component 1", y="Component 2", title="Separation of Genres using Cosine Similarity") + scale_color_tableau()
 print(p)
-ggsave(filename = "~/Dropbox/Slides/Insight/figure/separation.png", width=10, height = 8)
+ggsave(filename = "~/Dropbox/Slides/Insight/figure/separation.png", width=7, height = 5)
 text(mds[index, ], labels=rownames(mds[index, ]), col=rep(1:5, rep(4,5)))

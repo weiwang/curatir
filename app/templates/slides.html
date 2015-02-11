@@ -42,7 +42,7 @@
 <div class="slides">
 
 <section>
-<h1>Curatir: An Art Recommender for NYC</h1>
+<h1>Curatir: An Art Explorer for NYC</h1>
 <h3>Wei (Thomas) Wang</h3>
 <p>
   <h4>Columbia University</h4>
@@ -50,20 +50,20 @@
 </section>
 
 
-<section id="motivation" class="level2" data-background=>
-  <h2>What is it for?</h2>
+<!-- <section id="motivation" class="level2" data-background=>
+<h2>Exploring Arts in New York</h2>
 <ul>
-  <li><p class="fragment roll-in">Last year, Vermeer's most famous painting traveled to New York. </p></li>
-  <div id="img">  <img height=250 src="../static/figure/girl-pearl-earrings.jpg" class="fragment"></div>
-  <li><p class="fragment roll-in">But I missed it and it is back in Amsterdam now &#9785</p></li>
+<li><p class="fragment roll-in">Last year, Vermeer's most famous painting traveled to New York. </p></li>
+<div id="img">  <img height=250 src="../static/figure/girl-pearl-earrings.jpg" class="fragment"></div>
+<li><p class="fragment roll-in">But I missed it and it is back in Amsterdam now &#9785</p></li>
 </ul>
-</section>
+</section>-->
 <section id="demo" class="level2">
 <h2>Demo</h2>
 <ul>
-  <li>Go to <a href="http://curatir.weiwang.io"> http://curatir.weiwang.io </a></li>
+<li>Go to <a href="http://curatir.weiwang.io"> http://curatir.weiwang.io </a></li>
 </ul>
-</section>
+</section> 
   <!-- python scraperwiki major NYC museusm ~8,000 artworks -->
   <!-- Kimonolabs all wikipedia painters pages ~3,000 articles -->
   <!-- DBpedia graph knowledge about the painters-->
@@ -81,6 +81,13 @@
   <!-- gunicorn -->
   <!-- supervisor -->
 <!--</section> -->
+<section id="the-stack" class="level2"> 
+  <h2>The Stack</h2>
+  <figure>
+  <img src="../static/figure/curatir_stack_flowchart.png" alt="Data Pipeline" /><figcaption>Data Pipeline</figcaption>
+  </figure>
+</section>
+
 <section id="a-slide-to-display-multi-dimensional-scaling-of-artists" class="level2">
   <h2>Cosine Similarity between Painters</h2>
   <div  style="float:left; width: 400px">
@@ -96,9 +103,8 @@
 </section>
 
 <section id="Separation-of-genres" class="level2">
-  <h2>Separation of Genres</h2>
   <div>
-    <img height=500 src="../static/figure/separation.png" />
+    <img height=650 src="../static/figure/separation.png" />
   </div>
 </section>
 
@@ -122,12 +128,6 @@
   </div>
 </section>
 
-<section id="the-stack" class="level2"> 
-  <h2>The Stack</h2>
-  <figure>
-  <img src="../static/figure/curatir_stack_flowchart.png" alt="Data Pipeline" /><figcaption>Data Pipeline</figcaption>
-  </figure>
-</section>
 
 <section id="theme-extraction" class="level2">
   <h2>Artists' Themes</h2>

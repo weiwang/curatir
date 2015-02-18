@@ -5,7 +5,7 @@ import json
 import cPickle as pickle
 import os
 
-db = mdb.connect(user="root", host="localhost", db="nyarts", charset='utf8')
+
 
 @app.route('/')
             
@@ -21,6 +21,7 @@ def input():
 @app.route('/output')
 def output():
   #pull 'ID' from input field and store it
+    db = mdb.connect(user="root", host="localhost", db="nyarts", charset='utf8')
     artist = request.args.get('ID')
     if artist:
         with db:
@@ -74,8 +75,9 @@ def output():
 
         keywords_to_artists = json.load(open(keywords_to_artists_url))
         keywords_to_artist = {k:keywords_to_artists[k] for k in artist_keywords}
-
+        db.close()
         return render_template("output.html", artworks = artworks, artworks_by_venue = artworks_by_venue, artist=artist, artist_keywords=artist_keywords,  rec_artists=rec_artists, artist_info=artist_info, rec_artists_info=rec_artists_info, rec_keywords = rec_keywords, keywords_to_artist=keywords_to_artist, venue_links=venue_links)
 
     else:
+        db.close()
         return render_template("input_var.html")
